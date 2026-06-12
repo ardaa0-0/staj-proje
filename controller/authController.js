@@ -1,23 +1,23 @@
 const authService = require('../services/authService');
 
 const register = async (req, res) => { 
-    const {type, statusCode, message, user} = await authService.createUser(req.body);
+    const {type, statusCode, message, user, token} = await authService.createUser(req.body);
 
     if(type === 'Error') {
         return res.status(statusCode).json({message});
     }
     
-    return res.status(statusCode).json({type, user});
+    return res.status(statusCode).json({type, user, token});
 }
 
 const login = async (req,res) => {
-    const {type, statusCode, message, user} = await authService.loginUser(req.body);
+    const {type, statusCode, message, user, token} = await authService.loginUser(req.body);
 
     if(type === 'Error') {
         return res.status(statusCode).json({message});
     }
 
-    return res.status(statusCode).json({type, message, user});
+    return res.status(statusCode).json({type, message, user, token});
 }
 
 

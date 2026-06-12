@@ -1,8 +1,9 @@
 const User = require('../models/User');
+const generateToken = require('../utils/generateToken');
 
 const createUser = async (userBody) => {
     try {
-        const userExists = await User.findOne({email});
+        const userExists = await User.findOne({email : userBody.email});
 
         if(userExists) {
             return {
@@ -12,14 +13,15 @@ const createUser = async (userBody) => {
             }
         };
 
-        const user = await User.create({
-            userBody
-        });
+        const user = await User.create(userBody);
+
+        const token = generateToken(user._id);
 
         return {
             type : 'Success',
             statusCode : 201,
-            user
+            user,
+            token
         }
 
     }catch (error) {
@@ -29,7 +31,9 @@ const createUser = async (userBody) => {
 
 
 const loginUser = async (userBody) => {
-    
+
+    try {
+        
     const {email, password} = userBody;
 
     const user = await User.findOne({email});
@@ -42,13 +46,20 @@ const loginUser = async (userBody) => {
         }
     }
 
+    const token = generateToken(user._id);
+
     return {
         type : 'Success',
         statusCode : 200,
         message : 'login successful',
-        user
+        user,
+        token
     }
 
+
+    }catch (error) {
+        console.log(error);
+    }
 }
 
 module.exports = {
