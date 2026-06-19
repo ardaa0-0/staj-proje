@@ -9,9 +9,11 @@ connectDB();
 
 const authRoutes = require('./routes/authRoutes');
 const bookRoutes = require('./routes/bookRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 app.use('/auth', authRoutes);
 app.use('/book', bookRoutes);
+app.use('/user', userRoutes);
 
 const PORT = process.env.PORT || 3000;
 

@@ -1,7 +1,7 @@
-module.exports = (schema) => {
+module.exports = (schema, target = "body") => {
     return (req, res, next) => {
         
-        const {error} = schema.body.validate(req.body);
+        const {error} = schema[target].validate(req[target]);
 
         if(error) {
             return res.status(400).json({
