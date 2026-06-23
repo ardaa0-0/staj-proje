@@ -10,6 +10,29 @@ const addBook = async (req, res) => {
     res.status(statusCode).json({ type, message, book });
 };
 
+
+const updateBook = async (req, res) => {
+
+    const { type, statusCode, message, book } =
+        await bookService.updateBook(
+            req.params.id,
+            req.body
+        );
+
+    if (type === 'Error') {
+        return res.status(statusCode).json({ message });
+    }
+
+    res.status(statusCode).json({
+        type,
+        message,
+        book
+    });
+};
+
+
+
 module.exports = {
-    addBook
+    addBook,
+    updateBook
 }

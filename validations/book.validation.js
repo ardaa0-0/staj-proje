@@ -51,6 +51,66 @@ const bookAddSchema = {
     })
 };
 
+const bookUpdateSchema = {
+    body: joi.object({
+        title: joi.string()
+            .min(3)
+            .max(100)
+            .messages({
+                'string.base': 'Title should be a string',
+                'string.min': 'Title must be at least 3 characters long',
+                'string.max': 'Title cannot be longer than 100 characters'
+            }),
+
+        author: joi.string()
+            .min(3)
+            .messages({
+                'string.base': 'Author should be a string',
+                'string.min': 'Author must be at least 3 characters long'
+            }),
+
+        category: joi.string()
+            .min(3)
+            .messages({
+                'string.base': 'Category should be a string',
+                'string.min': 'Category must be at least 3 characters long'
+            }),
+
+        stock: joi.number()
+            .min(0)
+            .messages({
+                'number.base': 'Stock should be a number',
+                'number.min': 'Stock must be a positive number'
+            }),
+
+        pageCount: joi.number()
+            .min(1)
+            .messages({
+                'number.base': 'Page count should be a number',
+                'number.min': 'Page count must be a positive number'
+            })
+    }).min(1).required().messages({
+        'object.min': 'At least one field must be provided for update',
+        'any.required': 'At least one field must be provided for update'
+    })
+};
+
+const bookIdSchema = {
+    params: joi.object({
+        id: joi.string()
+            .required()
+            .length(24)
+            .messages({
+                'string.base': 'Book ID should be a string',
+                'string.length': 'Book ID must be 24 characters long',
+                'string.empty': 'Book ID cannot be empty',
+                'any.required': 'Book ID is required'
+            })
+    })
+};
+
 module.exports = {
-    bookAddSchema
+    bookAddSchema,
+    bookUpdateSchema,
+    bookIdSchema
 };

@@ -7,5 +7,6 @@ const bookValidation = require('../validations/book.validation');
 const router = express.Router();
 
 router.post('/add', auth.verifyToken, auth.restrictTo('admin'), validate(bookValidation.bookAddSchema), bookController.addBook);
+router.put('/update/:id', auth.verifyToken, auth.restrictTo('admin'), validate(bookValidation.bookIdSchema, 'params'),  validate(bookValidation.bookUpdateSchema), bookController.updateBook);
 
 module.exports = router;

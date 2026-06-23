@@ -27,6 +27,40 @@ const addBook = async (bookBody) => {
     }
 }
 
+const updateBook = async (bookId, bookBody) => {
+
+    try {
+
+        const book = await Book.findByIdAndUpdate(
+            bookId,
+            bookBody,
+            {
+                returnDocument: 'after',
+                runValidators: true
+            }
+        );
+
+        if (!book) {
+            return {
+                type: 'Error',
+                statusCode: 404,
+                message: 'Book not found'
+            };
+        }
+
+        return {
+            type: 'Success',
+            statusCode: 200,
+            message: 'Book updated successfully',
+            book
+        };
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 module.exports = {
-    addBook
+    addBook,
+    updateBook
 }
