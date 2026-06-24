@@ -1,15 +1,13 @@
 const userService = require('../services/userService');
 
-const getUserById = async (req,res) => {
+const getUserById = async (req,res,next) => {
 
-    const {type, statusCode, message, user} = await userService.getUser(req.params.id);
-
-
-    if(type === 'Error') {
-        return res.status(statusCode).json({message});
+    try {
+        const user = await userService.getUser(req.params.id);
+        res.status(200).json({user});
+    } catch (error) {
+        next(error);
     }
-
-    res.status(statusCode).json({ type, message, user });
 } 
 
 module.exports = {

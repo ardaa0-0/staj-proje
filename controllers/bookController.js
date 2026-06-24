@@ -1,33 +1,29 @@
 const bookService = require('../services/bookService');
 
-const addBook = async (req, res) => {
-    const {type, statusCode, message, book} = await bookService.addBook(req.body);
+const addBook = async (req, res,next) => {
 
-    if(type === 'Error') {
-        return res.status(statusCode).json({message});
+    try {
+        const book = await bookService.addBook(req.body);
+
+        res.status(201).json({ type: "success", book });
+    } catch(error) {
+        next(error);
     }
-
-    res.status(statusCode).json({ type, message, book });
 };
 
 
-const updateBook = async (req, res) => {
-
-    const { type, statusCode, message, book } =
-        await bookService.updateBook(
+const updateBook = async (req, res, next) => {
+    try {
+        const book = await bookService.updateBook(
             req.params.id,
             req.body
         );
 
-    if (type === 'Error') {
-        return res.status(statusCode).json({ message });
+        res.status(200).json({type: "success",book});
+    } catch(error) {
+        next(error);
     }
 
-    res.status(statusCode).json({
-        type,
-        message,
-        book
-    });
 };
 
 

@@ -1,35 +1,18 @@
 const Book = require('../models/Book');
+const AppError = require('../utils/AppError');
 
 const addBook = async (bookBody) => {
 
-    try {
         const bookExists = await Book.findOne({title : bookBody.title});
 
         if(bookExists) {
-            return {
-                type : 'Error',
-                statusCode : 400,
-                message : 'Book already exists'
-            }
+            throw new AppError('Book already exists', 400);
         }
 
-        const book = await Book.create(bookBody);
-
-        return {
-            type : 'Success',
-            statusCode : 201,
-            message : 'Book added successfully',
-            book
-        }
-
-    } catch (error) {
-            console.log(error);
-    }
+        return await Book.create(bookBody);
 }
 
 const updateBook = async (bookId, bookBody) => {
-
-    try {
 
         const book = await Book.findByIdAndUpdate(
             bookId,
@@ -41,23 +24,10 @@ const updateBook = async (bookId, bookBody) => {
         );
 
         if (!book) {
-            return {
-                type: 'Error',
-                statusCode: 404,
-                message: 'Book not found'
-            };
+            throw new AppError('Book not found', 404);
         }
 
-        return {
-            type: 'Success',
-            statusCode: 200,
-            message: 'Book updated successfully',
-            book
-        };
-
-    } catch (error) {
-        console.log(error);
-    }
+        return book;
 };
 
 module.exports = {

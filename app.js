@@ -1,6 +1,7 @@
 const dotenv = require('dotenv').config();
 const express = require('express');
 const connectDB = require('./config/db');
+const globalErrorHandler = require('./middlewares/globalErrorHandler');
 
 const app = express();
 app.use(express.json());
@@ -16,6 +17,8 @@ const userRoutes = require('./routes/userRoutes');
 app.use('/auth', authRoutes);
 app.use('/book', bookRoutes);
 app.use('/user', userRoutes);
+
+app.use(globalErrorHandler);
 
 const PORT = process.env.PORT || 3000;
 
