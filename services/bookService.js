@@ -30,7 +30,19 @@ const updateBook = async (bookId, bookBody) => {
         return book;
 };
 
+
+const deleteBook = async (bookId) => {
+    const book = await Book.findByIdAndDelete(bookId);
+
+    if (!book) {
+        throw new AppError('Book not found', 404);
+    }
+
+    return book;
+}
+
 module.exports = {
     addBook,
-    updateBook
+    updateBook,
+    deleteBook
 }

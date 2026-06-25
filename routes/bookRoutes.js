@@ -8,5 +8,6 @@ const router = express.Router();
 
 router.post('/add', auth.verifyToken, auth.restrictTo('admin'), validate(bookValidation.bookAddSchema), bookController.addBook);
 router.put('/update/:id', auth.verifyToken, auth.restrictTo('admin'), validate(bookValidation.bookIdSchema, 'params'),  validate(bookValidation.bookUpdateSchema), bookController.updateBook);
+router.delete('/delete/:id', auth.verifyToken, auth.restrictTo('admin'), validate(bookValidation.bookIdSchema, 'params'), bookController.deleteBook);
 
 module.exports = router;

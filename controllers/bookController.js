@@ -26,9 +26,19 @@ const updateBook = async (req, res, next) => {
 
 };
 
+const deleteBook = async (req,res,next) => {
+    try {
+        const book = await bookService.deleteBook(req.params.id);
+
+        res.status(200).json({message : "Book deleted successfully"});
+    }catch(error) {
+        next(error);
+    }
+}
 
 
 module.exports = {
     addBook,
-    updateBook
+    updateBook,
+    deleteBook
 }
