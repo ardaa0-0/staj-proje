@@ -109,8 +109,32 @@ const bookIdSchema = {
     })
 };
 
+const bookQuerySchema = {
+    query: joi.object({
+        page: joi.number()
+            .integer()
+            .min(1)
+            .default(1)
+            .messages({
+                'number.base': 'Page should be a number',
+                'number.min': 'Page must be a positive integer'
+            }),
+        limit: joi.number()
+            .integer()
+            .min(1)
+            .max(10)
+            .default(10)
+            .messages({
+                'number.base': 'Limit should be a number',
+                'number.min': 'Limit must be a positive integer',
+                'number.max': 'Limit cannot exceed 10'
+            })
+    })
+};
+
 module.exports = {
     bookAddSchema,
     bookUpdateSchema,
-    bookIdSchema
+    bookIdSchema,
+    bookQuerySchema
 };

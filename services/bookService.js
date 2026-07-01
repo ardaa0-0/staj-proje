@@ -30,6 +30,7 @@ const deleteBook = async (bookId) => {
     if (!book) {
         throw new AppError('Book not found', 404);
     }
+    return book;
 }
 
 const getBook = async (bookId) => {
@@ -40,8 +41,14 @@ const getBook = async (bookId) => {
     return book;
 }
 
-const getAllBooks = async () => { 
-    const books = await Book.find();
+const getAllBooks = async (query) => { 
+    const page = parseInt(query.page) || 1;
+    const limit = parseInt(query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const books = await Book.find()
+    .skip(skip)
+    .limit(limit);
     return books;
 }
 

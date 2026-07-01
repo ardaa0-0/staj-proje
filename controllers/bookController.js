@@ -26,8 +26,8 @@ const getBook = catchAsync(async(req,res,next) => {
 });
 
 const getAllBooks = catchAsync(async(req,res,next) => {
-    const books = await bookService.getAllBooks();
-    res.status(200).json({books});
+    const books = await bookService.getAllBooks(req.query);
+    res.status(200).json({bookCount: books.length, books});
 });
 
 module.exports = {
